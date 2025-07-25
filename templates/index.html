@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotion Recognition Platform</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vina+Sans&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Rubik+Microbe&family=Vina+Sans&display=swap');
+ </style>
+
+    
+
+  
+</head>
+<body>
+
+  <header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 class="Title"> </h1>
+      <div class="authors">
+        <p>Developed by <strong>Pedro Jesús Copado</strong> & <strong>Caroline Konïg</strong> & <strong>Martha Ivon Cardenas</strong></p>
+      </div>
+    </div>
+    <nav>
+      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('input')">Input Form</button>
+      <button onclick="showSection('result')">Result Form</button>
+      <button onclick="showSection('admin')">Administration</button>
+    </nav>
+  </header>
+  
+  <section id="home" class="active">
+
+      <div class="HomeTitle">
+      <div class="emotion-slide" id="slide-Happiness">
+        <img src="{{ url_for('static', filename='Hapiness.png')}}" alt="Happiness" />
+        <p>Happiness</p>
+      </div>
+    
+      <div class="emotion-slide" id="slide-Anger">
+        <img src="{{ url_for('static', filename='Anger.png')}}" alt="Anger" />
+        <p>Anger</p>
+      </div>
+    
+      <div class="emotion-slide" id="slide-Disgust">
+        <img src="{{ url_for('static', filename='Disgust.png')}}" alt="Disgust" />
+        <p>Disgust</p>
+      </div>
+    
+      <div class="emotion-slide" id="slide-Fear">
+        <img src="{{ url_for('static', filename='Fear.png')}}" alt="Fear" />
+        <p>Fear</p>
+      </div>
+    
+      <div class="emotion-slide" id="slide-Neutral">
+        <img src="{{ url_for('static', filename='Neutral.png')}}" alt="Neutral" />
+        <p>Neutral</p>
+      </div>
+    
+      <div class="emotion-slide" id="slide-Sadness">
+        <img src="{{ url_for('static', filename='Sadness.png')}}" alt="Sadness" />
+        <p>Sadness</p>
+      </div>
+    
+      <div class="emotion-slide" id="slide-Surprise">
+        <img src="{{ url_for('static', filename='Surprise.png')}}" alt="Surprise" />
+        <p>Surprise</p>
+      </div>
+    </div>
+
+
+    <!--div class="HomeTitle"> <h2> AER </h2> </div>-->
+    <!--<div class="LittleHomeExplanation"><p>THIS PLATFORM HELPS ANALYZE EMOTION RECOGNITION PATTERNS IN INDIVIDUALS WITH MENTAL HEALTH CONDITIONS.</p></div>-->
+    <div class="Introduction"> This project investigates how mental health conditions affect the ability to recognize emotions from facial expressions. Using a publicly available dataset of over 570 individuals with various psychiatric disorders including anxiety, depression, insomnia, and mania we trained machine learning models to predict emotion recognition patterns. By analyzing the influence of psychological profiles on the accuracy and certainty of emotion predictions, the study aims to better understand how mental illnesses alter emotional perception and to identify which emotions are most affected.</div>
+
+    <div class="UseTitle"> <h2>HOW TO USE IT ?</h2> </div>
+    <div class="UseTuto">   
+      <ol>
+        <li>Go to InputForm and enter your data</li>
+        <li>The system uses your profile to predict emotion perception</li>
+        <li>View results in ResultForm: predicted emotion and model confidence</li>
+      </ol>
+
+      <p><strong>Input Data</strong></p>
+      <ul>
+        <li><strong>Sociodemographic :</strong> Age, Gender</li>
+        <li><strong>Psychiatric Scores :</strong> Anxiety (GAD-7), Depression (PHQ-9), Insomnia (ISI), Mania (MDQ), Psychotic-like (PQ-16), Schizotypal traits (O-LIFE)</li>
+        <li><strong>Emotion Recognition :</strong> Your emotion :  Happiness, Sadness, Fear, Anger, Disgust, Surprise, Neutrality</li>
+      </ul>
+
+    </div>
+
+
+    <div class="logos-container">
+      <img class = "LogoUPC" src =  {{ url_for('static',filename='Logo_UPC.svg.png') }}>
+      <img class="LogoIdeai" src="{{ url_for('static', filename='ideai_logo.png') }}">
+      <img class="LogoSOCO" src="{{ url_for('static', filename='LogoSOCO.png') }}">
+    </div>
+
+</section>
+
+
+
+<section id="input">
+  <h2>Input Form</h2>
+  <form id="userForm" enctype="multipart/form-data">
+    
+    <div class="form-grid">
+      <fieldset>
+        <legend>Sociodemographic Parameters</legend>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" placeholder="e.g. 25" min="0" />
+
+        <label for="sex">Sex:</label>
+        <select id="sex" name="sex" required>
+          <option value="" disabled selected>Select sex</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Psychological Indicators</legend>
+        <div class="psych-grid">
+          <div class="input-group">
+            <label for="gad7_anxiety">Anxiety (GAD-7):</label>
+            <input type="number" id="gad7_anxiety" name="gad7_anxiety" min="0" max="21" />
+          </div>
+      
+          <div class="input-group">
+            <label for="phq9depression">Depression (PHQ-9):</label>
+            <input type="number" id="phq9depression" name="phq9depression" min="0" max="27" />
+          </div>
+      
+          <div class="input-group">
+            <label for="mdq_mania">Mania (MDQ):</label>
+            <input type="number" id="mdq_mania" name="mdq_mania" min="0" max="13" />
+          </div>
+      
+          <div class="input-group">
+            <label for="isi_insomnia">Insomnia (ISI):</label>
+            <input type="number" id="isi_insomnia" name="isi_insomnia" min="0" max="28" />
+          </div>
+      
+          <div class="input-group">
+            <label for="p16_prodromal_count">Prodromal Symptoms Count (PQ-16):</label>
+            <input type="number" id="p16_prodromal_count" name="p16_prodromal_count" min="0" max="16" />
+          </div>
+      
+          <div class="input-group">
+            <label for="p16_prodromal_severity">Prodromal Symptoms Severity:</label>
+            <input type="number" id="p16_prodromal_severity" name="p16_prodromal_severity" min="0" max="48" />
+          </div>
+      
+          <div class="input-group">
+            <label for="schizotypy_unusual_experiences">Unusual Experiences:</label>
+            <input type="number" id="schizotypy_unusual_experiences" name="schizotypy_unusual_experiences" min="0" max="12" />
+          </div>
+      
+          <div class="input-group">
+            <label for="schizotypy_cognitive_disorganisation">Cognitive Disorganisation:</label>
+            <input type="number" id="schizotypy_cognitive_disorganisation" name="schizotypy_cognitive_disorganisation" min="0" max="11" />
+          </div>
+      
+          <div class="input-group">
+            <label for="schizotypy_introvertive_anhedonia">Introvertive Anhedonia:</label>
+            <input type="number" id="schizotypy_introvertive_anhedonia" name="schizotypy_introvertive_anhedonia" min="0" max="10" />
+          </div>
+      
+          <div class="input-group">
+            <label for="schizotypy_impulsive_nonconformity">Impulsive Nonconformity:</label>
+            <input type="number" id="schizotypy_impulsive_nonconformity" name="schizotypy_impulsive_nonconformity" min="0" max="10" />
+          </div>
+        </div>
+      </fieldset>
+      
+
+      <fieldset>
+        <legend>Emotion Ground Truth</legend>
+
+        <label for="emotion_true">True Emotion :</label>
+        <select id="emotion_true" name="emotion_true" required>
+          <option value="" disabled selected>Select emotion</option>
+          <option value="anger">Anger</option>
+          <option value="disgust">Disgust</option>
+          <option value="fear">Fear</option>
+          <option value="happiness">Happiness</option>
+          <option value="neutral">Neutral</option>
+          <option value="sadness">Sadness</option>
+          <option value="surprise">Surprise</option>
+        </select>
+
+        <br /><br />
+        <button type="submit">Submit</button>
+      </fieldset>
+    </div>
+  </form>
+</section>
+
+<section id="result">
+  <div id="resultContent">
+    <p>Results will be displayed here after the input is processed.</p>
+  </div>
+</section>
+
+
+<section id="admin">
+  <div id="adminLogin">
+    <h2>Administration Login</h2>
+    <form id="adminLoginForm">
+      <label for="adminUsername">Email or Username:</label><br />
+      <input type="text" id="adminUsername" required /><br /><br />
+
+      <label for="adminPassword">Password:</label><br />
+      <input type="password" id="adminPassword" required /><br /><br />
+
+      <button type="submit">Login</button>
+      <p id="adminLoginError" style="color: red; display: none;">Invalid credentials. Try again.</p>
+    </form>
+  </div>
+
+  <div id="adminContent" style="display: none;">
+    <h2>Administration</h2>
+    <p>Welcome to the protected admin panel.</p>
+    <button id="logoutAdmin">Logout</button>
+
+
+    <fieldset>
+      <legend>Upload a New Model (.sav)</legend>
+      <form id="modelUploadForm" enctype="multipart/form-data">
+        <input type="file" id="newModel" name="newModel" accept=".sav" required />
+        <button type="submit">Upload & Activate Model</button>
+      </form>
+      <p id="uploadStatus"></p>
+    </fieldset>
+  </div>
+
+  
+</section>
+
+  <script src="{{ url_for('static', filename='frontend.js') }}"></script>
+
+</body>
+</html>
