@@ -1,4 +1,3 @@
-backend.py
 __pycache__/*
 webfaces/*
 uploaded_models/*
